@@ -1,7 +1,17 @@
-import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from flask import Flask
+import os
+import threading
 
+# Flask app for health checks
+app = Flask(__name__)
+
+@app.route('/')
+def health_check():
+    return "Bot is running!", 200
+
+# Telegram bot code
 TOKEN = os.getenv('TOKEN')  # Read token from environment variable
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -10,11 +20,16 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('How can I help you?')
 
-def main():
-    app = ApplicationBuilder().token(TOKEN).build()
-    app.add_handler(CommandHandler("start", start))
-    app.add_handler(CommandHandler("help", help))
-    app.run_polling()
+def run_bot():
+    bot_app = ApplicationBuilder().token(TOKEN).build()
+    bot_app.add_handler(CommandHandler("start", start))
+    bot_app.add_handler(CommandHandler("help", help))
+    bot_app.run_polling()
 
 if __name__ == '__main__':
-    main()
+    # Start the bot in a separate thread
+    bot_thread = threading.Thread(target=run_bot)
+    bot_thread.start()
+
+    # Start the Flask app for health checks
+    app.run(host='0.0.0.0', port=8000)

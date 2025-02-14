@@ -1,8 +1,10 @@
-# My Telegram Bot
+# Telegram Bot for Lottery Predictions
 
-This is a simple Telegram bot created using Python and the `python-telegram-bot` library.
+This bot fetches lottery data from an API, predicts results (Red/Green), and sends updates to a Telegram channel every minute.
 
-## How to Run
-1. Clone the repository.
-2. Install dependencies: `pip install -r requirements.txt`.
-3. Run the bot: `python main.py`.
+## How to Run Locally
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/telegram-bot.git
+   cd telegram-bot

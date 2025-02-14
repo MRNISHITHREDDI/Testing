@@ -1,7 +1,8 @@
+import os
 from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
 
-TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN'
+TOKEN = os.getenv('TOKEN')  # Read token from environment variable
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text('Hello! I am your new Telegram bot.')
